@@ -39,6 +39,20 @@ def main():
     # Training the model
     llama_sft_trainer.train()
 
+    # Chatting with the model
+    text_generation_pipeline = pipeline(
+            task = "text-generation", 
+            model = llama_model, 
+            tokenizer = llama_tokenizer, 
+            max_length = 300)
+
+    print("To leave the conversation, just press enter")
+    user_prompt = input(": ")
+    while user_prompt != "":
+        model_answer = text_generation_pipeline(f"<s>[INST] {user_prompt} [/INST]")
+        print(model_answer[0]['generated_text'])
+        user_prompt = input(": ")
+
 if __name__ == "__main__":
     main()
     
